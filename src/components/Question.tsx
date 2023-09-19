@@ -7,7 +7,7 @@ interface QuestionProps {
     event: React.ChangeEvent<HTMLInputElement>,
     questionText: string
   ) => void;
-  handleOptionClick: (optionValue: string, questionText: string) => void;
+  handleOptionClick: (optionValue: string, questionText: string, type: any) => void;
 }
 
 export const Question: React.FC<QuestionProps> = ({
@@ -34,7 +34,7 @@ export const Question: React.FC<QuestionProps> = ({
               key={`${questionData.id}-${option}`}
               checked={isChecked}
               role="button"
-              onClick={() => handleOptionClick(option, questionData.question)}
+              onClick={() => handleOptionClick(option, questionData.question, questionData.type)}
             >
               <Checkbox checked={isChecked} type={questionData.type} />
               {option}

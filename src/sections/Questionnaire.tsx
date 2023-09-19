@@ -19,19 +19,34 @@ const Questionnaire: React.FC = () => {
     setAnswersState(newAnswers);
   };
 
-  const handleOptionClick = (optionValue: string, questionText: string) => {
-    const currentValues = (answersState[questionText] as string[]) || [];
-    const isChecked = currentValues.includes(optionValue);
+  const handleOptionClick = (
+    optionValue: string,
+    questionText: string,
+    type: "checkbox" | "radio"
+  ) => {
+    if (type === "radio") {
+      const mockEvent = {
+        target: {
+          value: optionValue,
+          type: "radio",
+        },
+      } as React.ChangeEvent<HTMLInputElement>;
 
-    const mockEvent = {
-      target: {
-        value: optionValue,
-        type: "checkbox",
-        checked: !isChecked,
-      },
-    } as React.ChangeEvent<HTMLInputElement>;
+      handleInput(mockEvent, questionText);
+    } else if (type === "checkbox") {
+      const currentValues = (answersState[questionText] as string[]) || [];
+      const isChecked = currentValues.includes(optionValue);
 
-    handleInput(mockEvent, questionText);
+      const mockEvent = {
+        target: {
+          value: optionValue,
+          type: "checkbox",
+          checked: !isChecked,
+        },
+      } as React.ChangeEvent<HTMLInputElement>;
+
+      handleInput(mockEvent, questionText);
+    }
   };
 
   const [showModal, setShowModal] = useState(false);
