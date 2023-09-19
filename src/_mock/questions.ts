@@ -1,4 +1,4 @@
-export const questions = [
+export const questions: Question[] = [
   {
     id: 1,
     question: "What kind of tutoring experience do you have?",

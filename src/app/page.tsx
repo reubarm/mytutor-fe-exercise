@@ -1,8 +1,8 @@
-import Questionnaire from "@/components/Questionnaire";
+import Questionnaire from "@/sections/Questionnaire";
 
 export default function Home() {
   return (
-    <main className="p-10">
+    <main className="flex min-h-screen justify-center items-center p-5">
       <Questionnaire />
     </main>
   );
