@@ -21,7 +21,7 @@ export const Modal: React.FC<ModalProps> = ({
         onClick={closeModal}
       ></div>
       <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
-        <div className="flex flex-col w-[500px] bg-white rounded-lg shadow-lg p-6">
+        <div className="flex flex-col w-full max-w-[500px] mx-4 md:mx-0 bg-white rounded-lg shadow-lg p-6">
           <p className="my-10 text-xl leading-relaxed text-center">
             {answerFeedback(answers)}
           </p>
