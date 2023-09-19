@@ -32,10 +32,11 @@ export const Modal: React.FC<ModalProps> = ({
               <div className="overflow-x-auto text-sm text-white">
                 {Object.entries(answers).map(([key, value], index, array) => (
                   <React.Fragment key={key}>
-                    <span>"{key}"</span>:{" "}
-                    <span className="text-yellow-500">"{value}"</span>
+                    <span>&quot;{key}&quot;</span>:{" "}
+                    <span className="text-yellow-500">&quot;{value}&quot;</span>
                     {index === array.length - 1 ? "" : ","}
-                    <br /><br/>
+                    <br />
+                    <br />
                   </React.Fragment>
                 ))}
               </div>
