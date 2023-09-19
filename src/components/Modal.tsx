@@ -17,10 +17,10 @@ export const Modal: React.FC<ModalProps> = ({
   return (
     <>
       <div
-        className="absolute top-0 left-0 w-full h-full z-40 bg-black bg-opacity-25"
+        className="fixed top-0 left-0 w-full h-full z-40 bg-black bg-opacity-25"
         onClick={closeModal}
       ></div>
-      <div className="absolute top-0 left-0 w-full h-full flex items-center justify-center z-50">
+      <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50">
         <div className="flex flex-col w-[500px] bg-white rounded-lg shadow-lg p-6">
           <p className="my-10 text-xl leading-relaxed text-center">
             {answerFeedback(answers)}
