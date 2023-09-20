@@ -5,3 +5,7 @@ type Question = {
   type: "checkbox" | "radio";
   options: string[];
 };
+
+type Answer = {
+  [key: string]: string | string[];
+};

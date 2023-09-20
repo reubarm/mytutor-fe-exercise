@@ -1,17 +1,29 @@
 "use client";
 
-import React, { useState } from "react";
-import { questions } from "@/_mock";
+import React, { useState, useEffect } from "react";
 import { Modal, Question, SubmitButton, ResetButton } from "@/components";
 import { handleSubmit, resetAnswers } from "@/utils/utils";
 
 const Questionnaire: React.FC = () => {
   const title = "Onboarding Questionnaire";
-  const [answersState, setAnswersState] = useState<{
-    [key: string]: string | string[];
-  }>({});
+  const [questions, setQuestions] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [answersState, setAnswersState] = useState<Answer>({});
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/questions")
+      .then((response) => response.json())
+      .then((data) => {
+        setQuestions(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch questions:", error);
+        setIsLoading(false);
+      });
+  }, []);
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -37,6 +49,11 @@ const Questionnaire: React.FC = () => {
     setAnswersState(updatedAnswers);
   };
 
+  const resetForm = () => {
+    setAnswersState(prevState => resetAnswers());
+    setShowModal(false);
+  };
+
   const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -44,7 +61,7 @@ const Questionnaire: React.FC = () => {
       const data = await handleSubmit(answersState);
       setShowModal(true);
       console.log(data);
-      setError(null); // clear any previous errors
+      setError(null);
     } catch (error: any) {
       if (error instanceof Error) {
         console.error("Error submitting form:", error.message);
@@ -57,9 +74,13 @@ const Questionnaire: React.FC = () => {
   };
 
   const closeModal = () => {
-    setShowModal(false);
     setAnswersState(resetAnswers());
-  };
+    setShowModal(false);
+  };  
+
+  if (isLoading) {
+    return <div>...</div>;
+  }
 
   return (
     <div className="p-4">
@@ -75,8 +96,9 @@ const Questionnaire: React.FC = () => {
           />
         ))}
         <SubmitButton onClick={handleFormSubmit} />
-        <ResetButton onClick={() => setAnswersState(resetAnswers())} />
       </form>
+
+      <ResetButton onClick={resetForm} />
 
       {!error && (
         <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2 my-3">

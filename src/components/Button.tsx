@@ -11,7 +11,7 @@ export const SubmitButton: React.FC<{ onClick: any}> = ({
 
 export const ResetButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   <button
-    className="px-4 py-2 bg-gray-500 text-white text-md rounded rounded"
+    className="px-4 py-2 bg-gray-500 text-white text-md rounded rounded my-3"
     onClick={onClick}
   >
     Reset

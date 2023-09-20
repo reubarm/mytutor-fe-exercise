@@ -14,6 +14,6 @@ export const handleSubmit = async (answersState: {
   return data;
 };
 
-export const resetAnswers = () => {
+export const resetAnswers = (): Answer => {
   return {};
 };

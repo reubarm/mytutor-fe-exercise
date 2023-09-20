@@ -1,4 +1,6 @@
-export const questions: Question[] = [
+import type { NextApiRequest, NextApiResponse } from "next";
+
+const questions: Question[] = [
   {
     id: 1,
     question: "What kind of tutoring experience do you have?",
@@ -12,3 +14,7 @@ export const questions: Question[] = [
     type: "radio",
   },
 ];
+
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  res.status(200).json(questions);
+}
