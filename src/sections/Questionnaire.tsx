@@ -7,8 +7,11 @@ import { handleSubmit, resetAnswers } from "@/utils/utils";
 
 const Questionnaire: React.FC = () => {
   const title = "Onboarding Questionnaire";
-  const [answersState, setAnswersState] = useState<{ [key: string]: string | string[] }>({});
+  const [answersState, setAnswersState] = useState<{
+    [key: string]: string | string[];
+  }>({});
   const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -21,22 +24,36 @@ const Questionnaire: React.FC = () => {
     if (type === "radio") {
       updatedAnswers[questionText] = value;
     } else if (type === "checkbox") {
-      const existingAnswers = updatedAnswers[questionText] as string[] || [];
+      const existingAnswers = (updatedAnswers[questionText] as string[]) || [];
       if (checked) {
         updatedAnswers[questionText] = [...existingAnswers, value];
       } else {
-        updatedAnswers[questionText] = existingAnswers.filter(answer => answer !== value);
+        updatedAnswers[questionText] = existingAnswers.filter(
+          (answer) => answer !== value
+        );
       }
     }
 
     setAnswersState(updatedAnswers);
   };
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const data = await handleSubmit(answersState);
-    setShowModal(true);
-    console.log(data);
+  const handleFormSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    try {
+      const data = await handleSubmit(answersState);
+      setShowModal(true);
+      console.log(data);
+      setError(null); // clear any previous errors
+    } catch (error: any) {
+      if (error instanceof Error) {
+        console.error("Error submitting form:", error.message);
+        setError(error.message);
+      } else {
+        console.error("Unexpected error submitting form:", error);
+        setError("An unexpected error occurred.");
+      }
+    }
   };
 
   const closeModal = () => {
@@ -57,9 +74,16 @@ const Questionnaire: React.FC = () => {
             handleInputChange={handleInputChange}
           />
         ))}
-        <SubmitButton onClick={() => handleFormSubmit} />
+        <SubmitButton onClick={handleFormSubmit} />
         <ResetButton onClick={() => setAnswersState(resetAnswers())} />
       </form>
+
+      {!error && (
+        <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2 my-3">
+          {error}
+        </div>
+      )}
+
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -68,7 +92,5 @@ const Questionnaire: React.FC = () => {
     </div>
   );
 };
-
-
 
 export default Questionnaire;

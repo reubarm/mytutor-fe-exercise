@@ -1,4 +1,4 @@
-export const SubmitButton: React.FC<{ onClick: () => void }> = ({
+export const SubmitButton: React.FC<{ onClick: any}> = ({
   onClick,
 }) => (
   <button
