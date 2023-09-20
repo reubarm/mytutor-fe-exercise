@@ -6,7 +6,7 @@ import { handleSubmit, resetAnswers } from "@/utils/utils";
 
 const Questionnaire: React.FC = () => {
   const title = "Onboarding Questionnaire";
-  const [questions, setQuestions] = useState([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [answersState, setAnswersState] = useState<Answer>({});
   const [showModal, setShowModal] = useState(false);
