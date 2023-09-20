@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const Answer = styled.div`
+export const Answer = styled.label`
   display: flex;
   align-items: center;
   width: 100%;

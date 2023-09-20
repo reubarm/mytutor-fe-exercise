@@ -3,85 +3,63 @@
 import React, { useState } from "react";
 import { questions } from "@/_mock";
 import { Modal, Question, SubmitButton, ResetButton } from "@/components";
-import { handleInputChange, handleSubmit, resetAnswers } from "@/utils/utils";
+import { handleSubmit, resetAnswers } from "@/utils/utils";
 
 const Questionnaire: React.FC = () => {
   const title = "Onboarding Questionnaire";
-  const [answersState, setAnswersState] = useState<{
-    [key: string]: string | string[];
-  }>({});
+  const [answersState, setAnswersState] = useState<{ [key: string]: string | string[] }>({});
+  const [showModal, setShowModal] = useState(false);
 
-  const handleInput = (
+  const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     questionText: string
   ) => {
-    const newAnswers = handleInputChange(event, questionText, answersState);
-    setAnswersState(newAnswers);
-  };
+    const { type, value, checked } = event.target;
 
-  const handleOptionClick = (
-    optionValue: string,
-    questionText: string,
-    type: "checkbox" | "radio"
-  ) => {
+    let updatedAnswers = { ...answersState };
+
     if (type === "radio") {
-      const mockEvent = {
-        target: {
-          value: optionValue,
-          type: "radio",
-        },
-      } as React.ChangeEvent<HTMLInputElement>;
-
-      handleInput(mockEvent, questionText);
+      updatedAnswers[questionText] = value;
     } else if (type === "checkbox") {
-      const currentValues = (answersState[questionText] as string[]) || [];
-      const isChecked = currentValues.includes(optionValue);
-
-      const mockEvent = {
-        target: {
-          value: optionValue,
-          type: "checkbox",
-          checked: !isChecked,
-        },
-      } as React.ChangeEvent<HTMLInputElement>;
-
-      handleInput(mockEvent, questionText);
+      const existingAnswers = updatedAnswers[questionText] as string[] || [];
+      if (checked) {
+        updatedAnswers[questionText] = [...existingAnswers, value];
+      } else {
+        updatedAnswers[questionText] = existingAnswers.filter(answer => answer !== value);
+      }
     }
+
+    setAnswersState(updatedAnswers);
   };
 
-  const [showModal, setShowModal] = useState(false);
-
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     const data = await handleSubmit(answersState);
     setShowModal(true);
     console.log(data);
   };
 
-  const handleResetAnswers = () => {
-    const newAnswers = resetAnswers();
-    setAnswersState(newAnswers);
-  };
-
   const closeModal = () => {
     setShowModal(false);
-    handleResetAnswers();
+    setAnswersState(resetAnswers());
   };
 
   return (
     <div className="p-4">
       <h1 className="text-4xl font-bold">{title}</h1>
       <hr className="h-px my-5 bg-gray-300 border-0" />
-      {questions.map((q) => (
-        <Question
-          key={q.id}
-          questionData={q}
-          answersState={answersState}
-          handleInput={handleInput}
-          handleOptionClick={handleOptionClick}
-        />
-      ))}
-      <SubmitButton onClick={handleFormSubmit} />
-      <ResetButton onClick={handleResetAnswers} />
+      <form onSubmit={handleFormSubmit}>
+        {questions.map((q) => (
+          <Question
+            key={q.id}
+            questionData={q}
+            answersState={answersState}
+            handleInputChange={handleInputChange}
+          />
+        ))}
+        <SubmitButton onClick={() => handleFormSubmit} />
+        <ResetButton onClick={() => setAnswersState(resetAnswers())} />
+      </form>
       <Modal
         showModal={showModal}
         closeModal={closeModal}
@@ -90,5 +68,7 @@ const Questionnaire: React.FC = () => {
     </div>
   );
 };
+
+
 
 export default Questionnaire;
