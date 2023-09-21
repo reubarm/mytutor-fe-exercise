@@ -11,19 +11,19 @@ This [first commit](https://github.com/reubarm/mytutor-fe-exercise/commit/dedd4c
 
 ### Refactored & Improved 😇
 
-The initial draft was refactored and now includes a UI component library using Emotion, with E2E/unit tests using Playwright/Jest and improved data/styling.
+The initial draft was refactored and now fetches the questions from an API endpoint, handles errors, includes a UI component library using Emotion, with E2E/unit tests using Playwright/Jest, and improved data/styling.
 
 > ![updated-questionnaire](https://github.com/reubarm/mytutor-fe-exercise/assets/6934243/e9b5249f-b95d-4b12-907c-d392ece3ffde)
 
 ### Requirements & Features
 
-- [x] Given the questionnaire page loads then tutors are able to enter answers to the questions
-- [x] Given a tutor answers the multiple choice questions then they can select multiple options
-- [x] Given a tutor presses submit then the completed form is submitted
-- [x] Given the tutor presses reset then the form is cleared
+- [ ] Given the questionnaire page loads then tutors are able to enter answers to the questions
+- [ ] Given a tutor answers the multiple choice questions then they can select multiple options
+- [ ] Given a tutor presses submit then the completed form is submitted
+- [ ] Given the tutor presses reset then the form is cleared
 
-- [x] Unit test passes (Jest) 
-- [x] E2E test passes (Playwright) 
+- [ ] Unit test passes (Jest) 
+- [ ] E2E test passes (Playwright) 
 
 ### Deployed on Vercel
 
